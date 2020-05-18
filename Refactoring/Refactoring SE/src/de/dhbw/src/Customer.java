@@ -23,23 +23,31 @@ class Customer {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
         Enumeration enum_rentals = rentals.elements();	    
-        String result = "Rental Record for " + this.getName() + "\n";
-        result += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
-
+        String rentalList = "";
+        
         while (enum_rentals.hasMoreElements()) {
             double thisAmount = 0;
             Rental rental = (Rental) enum_rentals.nextElement();
             //determine amounts for each line
-            thisAmount = amountFor(rental);
+            thisAmount = getAmountForRental(rental);
             // add frequent renter points
             frequentRenterPoints ++;
             // add bonus for a two day new release rental
             if ((rental.getMovie().getPriceCode() == Movie.PriceCode.NEW_RELEASE) && rental.getDaysRented() > 1) 
                 frequentRenterPoints ++;
             //show figures for this rental
-            result += "\t" + rental.getMovie().getTitle()+ "\t" + "\t" + rental.getDaysRented() + "\t" + String.valueOf(thisAmount) + "\n";
+            rentalList += "\t" + rental.getMovie().getTitle()+ "\t" + "\t" + rental.getDaysRented() + "\t" + String.valueOf(thisAmount) + "\n";
             totalAmount += thisAmount;
         }
+        return generateResultString(totalAmount, frequentRenterPoints, rentalList);
+    }
+    
+    private String generateResultString(double totalAmount, int frequentRenterPoints, String rentalList) {
+        String result = "Rental Record for " + this.getName() + "\n";
+        result += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
+        
+        //add rental list 
+        result += rentalList;
         
         //add footer lines
         result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
@@ -47,7 +55,7 @@ class Customer {
         return result;
     }
 
-    private double amountFor(Rental rental) {
+    private double getAmountForRental(Rental rental) {
         double thisAmount = 0;
         switch (rental.getMovie().getPriceCode()) {
             case REGULAR:
