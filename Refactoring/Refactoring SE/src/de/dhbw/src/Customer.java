@@ -51,20 +51,35 @@ class Customer {
         double thisAmount = 0;
         switch (rental.getMovie().getPriceCode()) {
             case REGULAR:
-                thisAmount += 2;
-                if (rental.getDaysRented() > 2)
-                    thisAmount += (rental.getDaysRented() - 2) * 1.5;
+			thisAmount = getRegularAmount(rental, thisAmount);
                 break;
             case NEW_RELEASE:
-                thisAmount += rental.getDaysRented() * 3;
+			thisAmount = getNewReleaseAmount(rental, thisAmount);
                 break;
             case CHILDREN:
-                thisAmount += 1.5;
-                if (rental.getDaysRented() > 3)
-                    thisAmount += (rental.getDaysRented() - 3) * 1.5;
+			thisAmount = getChildrenAmount(rental, thisAmount);
                 break;
         }
         return thisAmount;
     }
+
+	private double getChildrenAmount(Rental rental, double thisAmount) {
+		thisAmount += 1.5;
+		if (rental.getDaysRented() > 3)
+		    thisAmount += (rental.getDaysRented() - 3) * 1.5;
+		return thisAmount;
+	}
+
+	private double getNewReleaseAmount(Rental rental, double thisAmount) {
+		thisAmount += rental.getDaysRented() * 3;
+		return thisAmount;
+	}
+
+	private double getRegularAmount(Rental rental, double thisAmount) {
+		thisAmount += 2;
+		if (rental.getDaysRented() > 2)
+		    thisAmount += (rental.getDaysRented() - 2) * 1.5;
+		return thisAmount;
+	}
 
 } 
