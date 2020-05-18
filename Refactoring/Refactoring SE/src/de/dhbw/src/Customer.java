@@ -3,6 +3,8 @@ package de.dhbw.src;
 import java.lang.*;
 import java.util.*;
 
+import de.dhbw.src.Movie.PriceCode;
+
 class Customer {
     private String name;
     private Vector rentals = new Vector();
@@ -88,15 +90,16 @@ class Customer {
 	}
 	
 	private String generateResultString(double totalAmount, int frequentRenterPoints, String rentalList) {
-		String result = "Rental Record for " + this.getName() + "\n";
-		result += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Rental Record for " + this.getName() + "\n");
+		builder.append("\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n");
 		
 		//add rental list 
-		result += rentalList;
+		builder.append(rentalList);
 		
 		//add footer lines
-		result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
-		result += "You earned " + String.valueOf(frequentRenterPoints) + " frequent renter points";
-		return result;
+		builder.append("Amount owed is " + String.valueOf(totalAmount) + "\n");
+		builder.append("You earned " + String.valueOf(frequentRenterPoints) + " frequent renter points");
+		return builder.toString();
 	}
 } 
