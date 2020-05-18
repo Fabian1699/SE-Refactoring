@@ -23,7 +23,7 @@ class CustomerTest {
 	void getCustomerStatementWithOneRental_SHOULD_CONTAIN_RentalWithCorrectNumbers() {
 		//arrange
         Customer c1 = new Customer("joe");
-        Movie m1 = new Movie("movie1", 1);
+        Movie m1 = new Movie("movie1", Movie.PriceCode.NEW_RELEASE);
         Rental r1 = new Rental(m1, 10);
         c1.addRental(r1);
         
@@ -40,9 +40,9 @@ class CustomerTest {
 	void getCustomerStatementWithMultipleRentals_SHOULD_CONTAIN_AllRentalsWithCorrectNumbers() {
 		//arrange
         Customer c1 = new Customer("joe");
-        Movie m1 = new Movie("movie1", 1);
-        Movie m2 = new Movie("movie2", 2);
-        Movie m3 = new Movie("movie3", 3);
+        Movie m1 = new Movie("movie1", Movie.PriceCode.NEW_RELEASE);
+        Movie m2 = new Movie("movie2", Movie.PriceCode.CHILDREN);
+        Movie m3 = new Movie("movie3", Movie.PriceCode.REGULAR);
         Rental r1 = new Rental(m1, 10);
         Rental r2 = new Rental(m2, 10);
         Rental r3 = new Rental(m3, 10);
@@ -56,8 +56,8 @@ class CustomerTest {
         //assert
         assertTrue(statement.contains("movie1		10	30.0"));
         assertTrue(statement.contains("movie2		10	12.0"));
-        assertTrue(statement.contains("movie3		10	0.0"));
-        assertTrue(statement.contains("Amount owed is 42.0"));
+        assertTrue(statement.contains("movie3		10	14.0"));
+        assertTrue(statement.contains("Amount owed is 56.0"));
         assertTrue(statement.contains("You earned 4 frequent renter points"));
 	}
 

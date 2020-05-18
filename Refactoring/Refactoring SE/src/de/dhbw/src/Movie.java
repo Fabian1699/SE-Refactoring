@@ -1,26 +1,27 @@
 package de.dhbw.src;
 
 public class Movie {
-    public static final int CHILDRENS = 2;
-    public static final int REGULAR = 0;
-    public static final int NEW_RELEASE = 1;
     private String title;
-    private int priceCode;
+    private PriceCode priceCode;
     
-    public Movie(String newtitle, int newpriceCode) {
+    public Movie(String newtitle, PriceCode newpriceCode) {
         title = newtitle;
         priceCode = newpriceCode;
     }
     
-    public int getPriceCode() {
+    public PriceCode getPriceCode() {
         return priceCode;
     }
     
-    public void setPriceCode(int arg) {
-        priceCode = arg;
+    public void setPriceCode(PriceCode newPriceCode) {
+        priceCode = newPriceCode;
     }
     
-    public String getTitle (){
+    public String getTitle(){
         return title;
+    }
+    
+    enum PriceCode{
+    	CHILDREN, REGULAR, NEW_RELEASE
     }
 } 
