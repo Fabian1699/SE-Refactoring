@@ -22,25 +22,26 @@ class Customer {
     public String statement() {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
-        Enumeration enum_rentals = rentals.elements();	    
         String rentalList = "";
+        Enumeration enum_rentals = rentals.elements();	    
         
         while (enum_rentals.hasMoreElements()) {
-            double thisAmount = 0;
-            Rental rental = (Rental) enum_rentals.nextElement();
-            //determine amounts for each line
-            thisAmount = getAmountForRental(rental);
-            // add frequent renter points
+        	Rental rental = (Rental) enum_rentals.nextElement();
+            double thisAmount = getAmountForRental(rental);
             frequentRenterPoints ++;
-            // add bonus for a two day new release rental
-            if ((rental.getMovie().getPriceCode() == Movie.PriceCode.NEW_RELEASE) && rental.getDaysRented() > 1) 
-                frequentRenterPoints ++;
+            if (isNewReleaseAndRentedForMoreThanOneDay(rental)) {
+            	frequentRenterPoints ++;	
+            }
             //show figures for this rental
             rentalList += "\t" + rental.getMovie().getTitle()+ "\t" + "\t" + rental.getDaysRented() + "\t" + String.valueOf(thisAmount) + "\n";
             totalAmount += thisAmount;
         }
         return generateResultString(totalAmount, frequentRenterPoints, rentalList);
     }
+
+	private boolean isNewReleaseAndRentedForMoreThanOneDay(Rental rental) {
+		return (rental.getMovie().getPriceCode() == Movie.PriceCode.NEW_RELEASE) && rental.getDaysRented() > 1;
+	}
     
     private String generateResultString(double totalAmount, int frequentRenterPoints, String rentalList) {
         String result = "Rental Record for " + this.getName() + "\n";
@@ -89,5 +90,4 @@ class Customer {
 		    thisAmount += (rental.getDaysRented() - 2) * 1.5;
 		return thisAmount;
 	}
-
 } 
