@@ -28,16 +28,22 @@ class Customer {
         while (enum_rentals.hasMoreElements()) {
         	Rental rental = (Rental) enum_rentals.nextElement();
             double thisAmount = getAmountForRental(rental);
-            frequentRenterPoints ++;
-            if (isNewReleaseAndRentedForMoreThanOneDay(rental)) {
-            	frequentRenterPoints ++;	
-            }
+            frequentRenterPoints = increaseRenterPoints(frequentRenterPoints, rental);
             //show figures for this rental
             rentalList += "\t" + rental.getMovie().getTitle()+ "\t" + "\t" + rental.getDaysRented() + "\t" + String.valueOf(thisAmount) + "\n";
             totalAmount += thisAmount;
         }
         return generateResultString(totalAmount, frequentRenterPoints, rentalList);
     }
+
+	private int increaseRenterPoints(int frequentRenterPoints, Rental rental) {
+		if (isNewReleaseAndRentedForMoreThanOneDay(rental)) {
+			frequentRenterPoints+=2;	
+		}else {
+		    frequentRenterPoints ++;
+		}
+		return frequentRenterPoints;
+	}
 
 	private boolean isNewReleaseAndRentedForMoreThanOneDay(Rental rental) {
 		return (rental.getMovie().getPriceCode() == Movie.PriceCode.NEW_RELEASE) && rental.getDaysRented() > 1;
